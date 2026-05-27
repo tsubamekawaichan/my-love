@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧚‍♀️ 小仙女的秘密驚喜 🧚‍♀️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght=500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff8ca3;
+            --soft-pink: #ffdae0;
+            --bg-gradient: linear-gradient(-45deg, #ffcbd7, #ffedee, #e0f2fe, #fce7f3);
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Quicksand', "Microsoft JhengHei", sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 50px rgba(255, 140, 163, 0.3);
+            width: 90%;
+            max-width: 500px;
+            margin: 50px 20px;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .fairy-badge {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff8ca3, #ff6b81);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            color: #ff477e;
+            font-size: 24px;
+            margin-top: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .timer-container {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            padding: 20px 10px;
+            margin: 25px 0;
+            border: 1px dashed var(--primary-pink);
+        }
+
+        .timer-label {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timer-num {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff477e;
+        }
+
+        .timer-text {
+            font-size: 10px;
+            color: #aaa;
+        }
+
+        .btn-box {
+            display: grid;
+            gap: 15px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 50px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .btn-love { background: linear-gradient(to right, #ff8da1, #ffabbd); }
+        .btn-ticket { background: linear-gradient(to right, #89f7fe, #66a6ff); }
+        .btn:hover { transform: translateY(-3px) scale(1.02); }
+
+        .coupon-shelf {
+            display: none;
+            margin-top: 20px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .coupon {
+            background: #fff;
+            border: 2px solid var(--soft-pink);
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .coupon-btn {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .star-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: starFall 1s forwards;
+        }
+
+        @keyframes starFall {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(50px) rotate(180deg) scale(0); opacity: 0; }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            padding: 20px;
+            color: #ff8ca3;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-card">
+        <div class="fairy-badge">正宮小仙女專屬權限</div>
+        
+        <h1>💕 臭長官/小豬豬 的秘密基地 💕</h1>
+        <p style="font-size: 13px; color: #777;">「我們在一起的每一秒，都在閃閃發光」</p>
+
+        <div class="timer-container">
+            <div class="timer-label">志傑大笨蛋這輩子已經被我賴上...</div>
+            <div class="timer-display">
+                <div class="timer-unit"><span class="timer-num" id="d">0</span><span class="timer-text">Days</span></div>
+                <div class="timer-unit"><span class="timer-num" id="h">0</span><span class="timer-text">Hours</span></div>
+                <div class="timer-unit"><span class="timer-num" id="m">0</span><span class="timer-text">Mins</span></div>
+                <div class="timer-unit"><span class="timer-num" id="s">0</span><span class="timer-text">Secs</span></div>
+            </div>
+        </div>
+
+        <div class="btn-box">
+            <button class="btn btn-love" onclick="getCompliment()">👉 點這裡：隨機領取一則甜言蜜語</button>
+            <button class="btn btn-ticket" onclick="toggleCoupons()">🎁 點這裡：開啟戀愛兌換商鋪</button>
+        </div>
+
+        <div id="couponShelf" class="coupon-shelf">
+            <div class="coupon"><span>🎟️ 搥背按摩 15 分鐘</span><button class="coupon-btn" onclick="redeem('按摩券')">立即兌換</button></div>
+            <div class="coupon"><span>🎟️ 陪玩遊戲 3 小時</span><button class="coupon-btn" onclick="redeem('遊戲券')">立即兌換</button></div>
+            <div class="coupon"><span>🎟️ 不生氣/免死金牌</span><button class="coupon-btn" onclick="redeem('免死金牌')">立即兌換</button></div>
+            <div class="coupon"><span>🎟️ 手寫情書一份</span><button class="coupon-btn" onclick="redeem('情書券')">立即兌換</button></div>
+            <p style="font-size: 10px; color: #ff8ca3;">*兌換後請截圖傳給小仙女核銷*</p>
+        </div>
+    </div>
+
+    <footer>Made with ✨ Sparkle ✨ by 妤靜兒 | 2026<br><span style="font-size: 10px; opacity: 0.8;">Since 2026.03.26 17:12</span></footer>
+
+    <script>
+        function updateTimer() {
+            const startDate = new Date(2026, 2, 26, 17, 12, 0); 
+            const now = new Date();
+            const diff = now - startDate;
+
+            if (diff < 0) {
+                document.getElementById('d').innerText = 0;
+                document.getElementById('h').innerText = 0;
+                document.getElementById('m').innerText = 0;
+                document.getElementById('s').innerText = 0;
+                return;
+            }
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / (1000 * 60)) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('d').innerText = d;
+            document.getElementById('h').innerText = h;
+            document.getElementById('m').innerText = m;
+            document.getElementById('s').innerText = s;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        const words = [
+            "今天也是超級超級喜歡你的一天！❤️",
+            "你是全世界最帥氣的臭長官～😘",
+            "不管你飛去哪裡，我都會在原地等你唷！💖",
+            "想抱抱你了，快去洗乾淨等我（誤 🐾）",
+            "你是我的小豬豬，我是你的小仙女🧚‍♀️",
+            "恭喜抽中隱藏福利：小仙女熱吻一枚！現在立刻找我領取！💋",
+            "偷偷告訴你，你笑起來的時候，我的世界都在放煙火。🎆",
+            "雖然你常常氣我，但我還是最偏心你。🌸",
+            "報告長官！本仙女已對你下達『終身不准離開我』的死命令！👮‍♂️",
+            "遇見你之後，我所有的溫柔都有了合法的去處。🏠✨",
+            "聽說接吻可以燃燒卡路里，你要不要幫我減肥一下？🍓",
+            "你問我有多喜歡你？大概是像星星那麼多，數也數不完。🌟",
+            "你負責頂天立地當我的大英雄，我負責奇奇怪怪當你的小可愛。🧸",
+            "我不是最完美的，但我是最愛最愛你的那一個。🔒❤️",
+            "這輩子最幸運的事，就是 2026 年 3 月 26 日那天，我被你收編了。🥰"
+        ];
+
+        let lastIndex = -1;
+
+        function getCompliment() {
+            let randIndex;
+            do {
+                randIndex = Math.floor(Math.random() * words.length);
+            } while (randIndex === lastIndex && words.length > 1);
+            
+            lastIndex = randIndex;
+            const rand = words[randIndex];
+            
+            alert("💌 小仙女的真心話：\n\n" + rand);
+            triggerMagic();
+        }
+
+        function toggleCoupons() {
+            const shelf = document.getElementById('couponShelf');
+            shelf.style.display = (shelf.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function redeem(name) {
+            alert("✅ 兌換成功！\n名稱：" + name + "\n請立刻截圖傳給女友核銷，過期無效唷！🤫");
+        }
+
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.9) { 
+                const star = document.createElement('div');
+                star.className = 'star-particle';
+                star.innerText = ['✨', '⭐', '🌸', '💖'][Math.floor(Math.random()*4)];
+                star.style.left = e.clientX + 'px';
+                star.style.top = e.clientY + 'px';
+                star.style.fontSize = Math.random() * 10 + 10 + 'px';
+                document.body.appendChild(star);
+                
+                setTimeout(() => star.remove(), 1000);
+            }
+        });
+
+        function triggerMagic() {
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'star-particle';
+                p.innerText = ['💖', '❤️', '✨', '🌹'][Math.floor(Math.random()*4)];
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.top = '100vh';
+                p.style.transition = 'all 2s ease';
+                p.style.fontSize = '25px';
+                document.body.appendChild(p);
+
+                setTimeout(() => {
+                    p.style.top = '-10vh';
+                    p.style.opacity = '0';
+                    p.style.transform = `translateX(${Math.random()*200-100}px) rotate(360deg)`;
+                }, 100);
+                setTimeout(() => p.remove(), 2100);
+            }
+        }
+    </script>
+</body>
+</html>
