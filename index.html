@@ -12,17 +12,26 @@
             --bg-gradient: linear-gradient(-45deg, #ffcbd7, #ffedee, #e0f2fe, #fce7f3);
         }
 
+        html, body {
+            overflow-x: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
         body {
             background: var(--bg-gradient);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             font-family: 'Quicksand', "Microsoft JhengHei", sans-serif;
             margin: 0;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            user-select: none;
         }
 
         @keyframes gradientBG {
@@ -31,19 +40,88 @@
             100% { background-position: 0% 50%; }
         }
 
+        .bg-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            color: rgba(255, 71, 126, 0.35);
+            animation: floatUp 5s linear forwards;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) scale(0.5) translateX(0); opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2) translateX(100px); opacity: 0; }
+        }
+
+        #lockScreen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 235, 240, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease;
+        }
+
+        .lock-title {
+            font-size: 20px;
+            color: #ff477e;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .heart-btn {
+            font-size: 80px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            animation: pulse 1.5s infinite;
+            text-shadow: 0 10px 20px rgba(255, 71, 126, 0.5);
+        }
+
+        .progress-bar-container {
+            width: 200px;
+            height: 10px;
+            background: #ffe0e6;
+            border-radius: 10px;
+            margin-top: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #ff477e;
+            transition: width 0.1s linear;
+        }
+
+        #mainContent {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+            position: relative;
+            z-index: 10;
+        }
+
         .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
             border-radius: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.6);
             box-shadow: 0 20px 50px rgba(255, 140, 163, 0.3);
-            width: 90%;
-            max-width: 500px;
-            margin: 50px 20px;
+            width: 85%;
+            max-width: 450px;
+            margin: 50px 20px 20px;
             padding: 40px 20px;
             text-align: center;
             position: relative;
-            z-index: 10;
         }
 
         .fairy-badge {
@@ -60,189 +138,245 @@
             letter-spacing: 2px;
         }
 
-        h1 {
-            color: #ff477e;
-            font-size: 24px;
-            margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-        }
+        h1 { color: #ff477e; font-size: 24px; margin-top: 20px; }
 
         .timer-container {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 25px;
             padding: 20px 10px;
             margin: 25px 0;
             border: 1px dashed var(--primary-pink);
         }
+        .timer-display { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .timer-unit { display: flex; flex-direction: column; }
+        .timer-num { font-size: 26px; font-weight: 900; color: #ff477e; }
+        .timer-text { font-size: 10px; color: #aaa; }
 
-        .timer-label {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 10px;
+        .scratch-container {
+            position: relative;
+            width: 250px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-
-        .timer-display {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .timer-unit {
+        .scratch-award {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff0f3;
             display: flex;
-            flex-direction: column;
-        }
-
-        .timer-num {
-            font-size: 24px;
-            font-weight: 700;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
             color: #ff477e;
+            font-size: 18px;
+            padding: 10px;
+            box-sizing: border-box;
+            z-index: 1;
         }
-
-        .timer-text {
-            font-size: 10px;
-            color: #aaa;
+        canvas {
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 2;
+            cursor: pointer;
         }
-
-        .btn-box {
-            display: grid;
-            gap: 15px;
-        }
+        .scratch-hint { font-size: 12px; color: #888; margin-bottom: 20px; }
 
         .btn {
+            background: linear-gradient(to right, #ff8da1, #ffabbd);
             border: none;
             border-radius: 50px;
-            padding: 15px;
+            padding: 15px 30px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
             color: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(255, 141, 161, 0.4);
+            margin-top: 10px;
+            width: 90%;
         }
-
-        .btn-love { background: linear-gradient(to right, #ff8da1, #ffabbd); }
-        .btn-ticket { background: linear-gradient(to right, #89f7fe, #66a6ff); }
         .btn:hover { transform: translateY(-3px) scale(1.02); }
 
-        .coupon-shelf {
-            display: none;
-            margin-top: 20px;
-            animation: slideIn 0.5s ease;
-        }
-
-        .coupon {
-            background: #fff;
-            border: 2px solid var(--soft-pink);
-            border-radius: 15px;
-            padding: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .coupon-btn {
-            background: var(--primary-pink);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        .star-particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            animation: starFall 1s forwards;
-        }
-
-        @keyframes starFall {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(50px) rotate(180deg) scale(0); opacity: 0; }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        footer {
-            padding: 20px;
-            color: #ff8ca3;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-align: center;
-        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        footer { padding: 20px; color: #ff8ca3; font-size: 12px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div class="glass-card">
-        <div class="fairy-badge">正宮小仙女專屬權限</div>
-        
-        <h1>💕 臭長官/小豬豬 的秘密基地 💕</h1>
-        <p style="font-size: 13px; color: #777;">「我們在一起的每一秒，都在閃閃發光」</p>
-
-        <div class="timer-container">
-            <div class="timer-label">志傑大笨蛋這輩子已經被我賴上...</div>
-            <div class="timer-display">
-                <div class="timer-unit"><span class="timer-num" id="d">0</span><span class="timer-text">Days</span></div>
-                <div class="timer-unit"><span class="timer-num" id="h">0</span><span class="timer-text">Hours</span></div>
-                <div class="timer-unit"><span class="timer-num" id="m">0</span><span class="timer-text">Mins</span></div>
-                <div class="timer-unit"><span class="timer-num" id="s">0</span><span class="timer-text">Secs</span></div>
-            </div>
-        </div>
-
-        <div class="btn-box">
-            <button class="btn btn-love" onclick="getCompliment()">👉 點這裡：隨機領取一則甜言蜜語</button>
-            <button class="btn btn-ticket" onclick="toggleCoupons()">🎁 點這裡：開啟戀愛兌換商鋪</button>
-        </div>
-
-        <div id="couponShelf" class="coupon-shelf">
-            <div class="coupon"><span>🎟️ 搥背按摩 15 分鐘</span><button class="coupon-btn" onclick="redeem('按摩券')">立即兌換</button></div>
-            <div class="coupon"><span>🎟️ 陪玩遊戲 3 小時</span><button class="coupon-btn" onclick="redeem('遊戲券')">立即兌換</button></div>
-            <div class="coupon"><span>🎟️ 不生氣/免死金牌</span><button class="coupon-btn" onclick="redeem('免死金牌')">立即兌換</button></div>
-            <div class="coupon"><span>🎟️ 手寫情書一份</span><button class="coupon-btn" onclick="redeem('情書券')">立即兌換</button></div>
-            <p style="font-size: 10px; color: #ff8ca3;">*兌換後請截圖傳給小仙女核銷*</p>
+    <div id="lockScreen">
+        <div class="lock-title">系統偵測到男朋友上線！<br><span style="font-size: 14px; color: #888;">請長按下方愛心 3 秒鐘，證明你很想我</span></div>
+        <div class="heart-btn" id="unlockBtn">💖</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
         </div>
     </div>
 
-    <footer>Made with ✨ Sparkle ✨ by 妤靜兒 | 2026<br><span style="font-size: 10px; opacity: 0.8;">Since 2026.03.26 17:12</span></footer>
+    <div id="mainContent">
+        <div class="glass-card">
+            <div class="fairy-badge">正宮小仙女專屬權限</div>
+            
+            <h1>💕 臭志傑/小豬豬 的秘密基地 💕</h1>
+            <p style="font-size: 13px; color: #777;">「相愛的每一秒，我都幫你記著了喔！」</p>
+
+            <div class="timer-container">
+                <div class="timer-display">
+                    <div class="timer-unit"><span class="timer-num" id="d">0</span><span class="timer-text">Days</span></div>
+                    <div class="timer-unit"><span class="timer-num" id="h">0</span><span class="timer-text">Hours</span></div>
+                    <div class="timer-unit"><span class="timer-num" id="m">0</span><span class="timer-text">Mins</span></div>
+                    <div class="timer-unit"><span class="timer-num" id="s">0</span><span class="timer-text">Secs</span></div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; border-top: 1px dashed #ffdae0; padding-top: 20px;">
+                <h3 style="color: #ff6b81; margin-bottom: 5px;">✨ 今日專屬刮刮樂 ✨</h3>
+                <div class="scratch-hint">用手指或滑鼠刮開下方銀色區域領取福利！</div>
+                
+                <div class="scratch-container">
+                    <div class="scratch-award" id="awardText">讀取中...</div>
+                    <canvas id="scratchCanvas" width="250" height="100"></canvas>
+                </div>
+            </div>
+
+            <button class="btn" onclick="playGacha()">🔮 點我抽取：小仙女的甜言蜜語盲盒</button>
+
+        </div>
+
+        <footer>Made with ✨ Sparkle ✨ by 妤靜兒 | 2026<br><span style="font-size: 10px; opacity: 0.8;">Since 2026.03.26 17:12</span></footer>
+    </div>
 
     <script>
+        const lockScreen = document.getElementById('lockScreen');
+        const mainContent = document.getElementById('mainContent');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const progressBar = document.getElementById('progressBar');
+        
+        let holdTimer;
+        let progress = 0;
+        let isUnlocked = false;
+
+        function startUnlock(e) {
+            if(e.type === 'touchstart') e.preventDefault();
+            if(isUnlocked) return;
+            unlockBtn.style.transform = 'scale(0.9)';
+            
+            holdTimer = setInterval(() => {
+                progress += 2; 
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(holdTimer);
+                    isUnlocked = true;
+                    unlockBtn.innerText = '🔓';
+                    setTimeout(() => {
+                        lockScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            lockScreen.style.display = 'none';
+                            mainContent.style.display = 'flex';
+                            initScratchCard(); 
+                            setInterval(createBackgroundHeart, 500); 
+                        }, 1000);
+                    }, 500);
+                }
+            }, 50); 
+        }
+
+        function stopUnlock() {
+            if(isUnlocked) return;
+            clearInterval(holdTimer);
+            unlockBtn.style.transform = 'scale(1)';
+            progress = 0;
+            progressBar.style.width = '0%';
+        }
+
+        unlockBtn.addEventListener('mousedown', startUnlock);
+        unlockBtn.addEventListener('touchstart', startUnlock);
+        window.addEventListener('mouseup', stopUnlock);
+        window.addEventListener('touchend', stopUnlock);
+
         function updateTimer() {
             const startDate = new Date(2026, 2, 26, 17, 12, 0); 
             const now = new Date();
             const diff = now - startDate;
 
-            if (diff < 0) {
-                document.getElementById('d').innerText = 0;
-                document.getElementById('h').innerText = 0;
-                document.getElementById('m').innerText = 0;
-                document.getElementById('s').innerText = 0;
-                return;
-            }
+            if (diff < 0) return;
 
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const m = Math.floor((diff / (1000 * 60)) % 60);
-            const s = Math.floor((diff / 1000) % 60);
-
-            document.getElementById('d').innerText = d;
-            document.getElementById('h').innerText = h;
-            document.getElementById('m').innerText = m;
-            document.getElementById('s').innerText = s;
+            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('h').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            document.getElementById('m').innerText = Math.floor((diff / (1000 * 60)) % 60);
+            document.getElementById('s').innerText = Math.floor((diff / 1000) % 60);
         }
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        const words = [
+
+        function createBackgroundHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'bg-heart';
+            heart.innerText = ['💖', '❤️', '🌸', '💕', '✨'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 3 + 4; 
+            heart.style.animationDuration = duration + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px'; 
+            
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+
+        const awards = ["🎁 獲得：免生氣金牌 1 張！", "💋 獲得：小仙女熱吻 5 分鐘", "💆‍♂️ 獲得：專屬搥背服務 1 次", "🎮 獲得：陪打遊戲 2 小時券", "🍰 獲得：被請客吃甜點 1 次"];
+        
+        function initScratchCard() {
+            const canvas = document.getElementById('scratchCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            document.getElementById('awardText').innerText = awards[Math.floor(Math.random() * awards.length)];
+
+            ctx.fillStyle = '#c0c0c0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.font = 'bold 16px "Microsoft JhengHei"';
+            ctx.fillStyle = '#666';
+            ctx.textAlign = 'center';
+            ctx.fillText('刮開看今日驚喜！', canvas.width/2, canvas.height/2 + 6);
+
+            let isDrawing = false;
+
+            function getMousePos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function scratch(e) {
+                if (!isDrawing) return;
+                e.preventDefault();
+                const pos = getMousePos(e);
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 15, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            canvas.addEventListener('mousedown', () => isDrawing = true);
+            canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('touchmove', scratch);
+            window.addEventListener('mouseup', () => isDrawing = false);
+            window.addEventListener('touchend', () => isDrawing = false);
+        }
+
+        const gachaWords = [
             "今天也是超級超級喜歡你的一天！❤️",
             "你是全世界最帥氣的臭長官～😘",
             "不管你飛去哪裡，我都會在原地等你唷！💖",
-            "想抱抱你了，快去洗乾淨等我（誤 🐾）",
+            "想抱抱你了，快去洗乾淨等我🐾",
             "你是我的小豬豬，我是你的小仙女🧚‍♀️",
             "恭喜抽中隱藏福利：小仙女熱吻一枚！現在立刻找我領取！💋",
             "偷偷告訴你，你笑起來的時候，我的世界都在放煙火。🎆",
@@ -256,60 +390,30 @@
             "這輩子最幸運的事，就是 2026 年 3 月 26 日那天，我被你收編了。🥰"
         ];
 
-        let lastIndex = -1;
-
-        function getCompliment() {
-            let randIndex;
-            do {
-                randIndex = Math.floor(Math.random() * words.length);
-            } while (randIndex === lastIndex && words.length > 1);
-            
-            lastIndex = randIndex;
-            const rand = words[randIndex];
-            
-            alert("💌 小仙女的真心話：\n\n" + rand);
+        function playGacha() {
+            const rand = gachaWords[Math.floor(Math.random() * gachaWords.length)];
+            alert("✨ 盲盒開啟 ✨\n\n" + rand);
             triggerMagic();
         }
 
-        function toggleCoupons() {
-            const shelf = document.getElementById('couponShelf');
-            shelf.style.display = (shelf.style.display === 'block') ? 'none' : 'block';
-        }
-
-        function redeem(name) {
-            alert("✅ 兌換成功！\n名稱：" + name + "\n請立刻截圖傳給女友核銷，過期無效唷！🤫");
-        }
-
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() > 0.9) { 
-                const star = document.createElement('div');
-                star.className = 'star-particle';
-                star.innerText = ['✨', '⭐', '🌸', '💖'][Math.floor(Math.random()*4)];
-                star.style.left = e.clientX + 'px';
-                star.style.top = e.clientY + 'px';
-                star.style.fontSize = Math.random() * 10 + 10 + 'px';
-                document.body.appendChild(star);
-                
-                setTimeout(() => star.remove(), 1000);
-            }
-        });
-
         function triggerMagic() {
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 25; i++) {
                 const p = document.createElement('div');
-                p.className = 'star-particle';
-                p.innerText = ['💖', '❤️', '✨', '🌹'][Math.floor(Math.random()*4)];
+                p.innerText = ['💖', '❤️', '✨', '🌸'][Math.floor(Math.random()*4)];
+                p.style.position = 'fixed';
                 p.style.left = Math.random() * 100 + 'vw';
                 p.style.top = '100vh';
                 p.style.transition = 'all 2s ease';
-                p.style.fontSize = '25px';
+                p.style.fontSize = Math.random() * 20 + 15 + 'px';
+                p.style.zIndex = '9999';
+                p.style.pointerEvents = 'none';
                 document.body.appendChild(p);
 
                 setTimeout(() => {
                     p.style.top = '-10vh';
                     p.style.opacity = '0';
                     p.style.transform = `translateX(${Math.random()*200-100}px) rotate(360deg)`;
-                }, 100);
+                }, 10);
                 setTimeout(() => p.remove(), 2100);
             }
         }
